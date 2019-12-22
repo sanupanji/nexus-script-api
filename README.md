@@ -2,7 +2,7 @@
 An API repository with useful scripts to update/ create/ get nexus repository 
 
 ## Create a RAW helm repository
-inputs: repository name
+**inputs: repository name**
 ```
 {
 "name": "helm-repo",
