@@ -1,0 +1,25 @@
+{
+"name": "helm-repo",
+"type": "groovy",
+"content": "import org.sonatype.nexus.repository.Repository; import org.sonatype.nexus.repository.storage.WritePolicy; blobStore.createFileBlobStore('project-helm-repo', 'project-helm-repo'); repository.createRawHosted('project-helm-repo', 'project-helm-repo', false, WritePolicy.ALLOW)"
+}
+{
+"name": "docker-repo",
+"type": "groovy",
+"content": "import org.sonatype.nexus.repository.Repository; import org.sonatype.nexus.repository.storage.WritePolicy; blobStore.createFileBlobStore('project-docker-repo', 'project-docker-repo'); repository.createDockerHosted('project-docker-repo', {{MAIN_PORT}}, 0, 'project-docker-repo', true, true, WritePolicy.ALLOW)"
+}
+{
+"name": "maven-repo",
+"type": "groovy",
+"content": "import org.sonatype.nexus.repository.Repository; import org.sonatype.nexus.repository.storage.WritePolicy; import org.sonatype.nexus.repository.maven.VersionPolicy; import org.sonatype.nexus.repository.maven.LayoutPolicy; blobStore.createFileBlobStore('project-maven-repo', 'project-maven-repo'); repository.createMavenHosted('project-maven-repo', 'project'-maven-repo, true, VersionPolicy.repo, WritePolicy.ALLOW_ONCE, LayoutPolicy.STRICT)"
+}
+{
+"name": "maven-group",
+"type": "groovy",
+"content": "import org.sonatype.nexus.repository.Repository; blobStore.createFileBlobStore('project-maven-group', 'project-maven-group'); repository.createMavenGroup('project-maven-group', ['maven-central', 'project-maven-repo'], 'project-maven-group')"
+}
+{
+"name": "setdockergroup",
+"type": "groovy",
+"content": "import org.sonatype.nexus.repository.config.Configuration; Configuration groupRepoConfig = repository.repositoryManager.get('ms-docker-group').configuration.copy();groupRepoConfig.attributes['group']['memberNames']=groupRepoConfig.attributes['group']['memberNames'] << 'project-docker-repo'; repository.repositoryManager.update(groupRepoConfig)"
+}
